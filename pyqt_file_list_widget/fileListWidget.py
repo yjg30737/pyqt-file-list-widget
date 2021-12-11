@@ -4,6 +4,8 @@ from PyQt5.QtWidgets import QListWidget, QListWidgetItem, QDialog, QAbstractItem
 from PyQt5.QtCore import Qt
 import os
 
+from pyqt_files_already_exists_dialog import FilesAlreadyExistDialog
+
 
 class FileListWidget(QListWidget):
     __ext_lst = []
@@ -46,7 +48,7 @@ class FileListWidget(QListWidget):
             else:
                 not_exists_file_lst.append(filename)
         if exists_file_lst:
-            dialog = ExistsDialog()
+            dialog = FilesAlreadyExistDialog()
             dialog.setDontAskAgainChecked(self.__existsDialogDontAskAgainChecked)
             dialog.setExistFiles(exists_file_lst)
             reply = dialog.exec()
