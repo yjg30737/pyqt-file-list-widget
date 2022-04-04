@@ -8,6 +8,7 @@ PyQt5 >= 5.8
 ```pip3 install git+https://github.com/yjg30737/pyqt-file-list-widget.git --upgrade```
 
 ## Included package
+* <a href="https://github.com/yjg30737/pyqt-show-long-text-as-tooltip-list-widget.git">pyqt-show-long-text-as-tooltip-list-widget</a>
 * <a href="https://github.com/yjg30737/pyqt-files-already-exists-dialog.git>pyqt-files-already-exists-dialog">pyqt-files-already-exists-dialog</a>
 
 ## Method Overview
