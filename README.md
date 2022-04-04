@@ -10,7 +10,12 @@ PyQt5 >= 5.8
 ## Included package
 * <a href="https://github.com/yjg30737/pyqt-files-already-exists-dialog.git>pyqt-files-already-exists-dialog">pyqt-files-already-exists-dialog</a>
 
+## Method Overview
+* `addFilename(filename: str)`
+* `addFilenames(filenames: list)`
+* `setExtensions(extensions: list)` - Set the acceptable extensions of list.
+
 ## Example
-Go to see <a href="https://github.com/yjg30737/pyqt-top-left-right-file-list-widget.git">pyqt-top-left-right-file-list-widget</a>
+See <a href="https://github.com/yjg30737/pyqt-top-left-right-file-list-widget.git">pyqt-top-left-right-file-list-widget</a>
 
 
