@@ -7,7 +7,7 @@ PyQt5 >= 5.8
 ## Setup
 ```pip3 install git+https://github.com/yjg30737/pyqt-file-list-widget.git --upgrade```
 
-## Included package
+## Included packages
 * <a href="https://github.com/yjg30737/pyqt-show-long-text-as-tooltip-list-widget.git">pyqt-show-long-text-as-tooltip-list-widget</a> - Parent class
 * <a href="https://github.com/yjg30737/pyqt-files-already-exists-dialog.git>pyqt-files-already-exists-dialog">pyqt-files-already-exists-dialog</a>
 
