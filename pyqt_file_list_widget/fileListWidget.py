@@ -73,7 +73,7 @@ class FileListWidget(QListWidget):
         self.takeItem(self.row(item))
         self.__basename_absname_dict.pop(os.path.basename(filename))
 
-    def getSelectedFilenames(self):
+    def getSelectedFilenames(self) -> list:
         items = self.selectedItems()
         filenames = [item.text() for item in items]
         return filenames
