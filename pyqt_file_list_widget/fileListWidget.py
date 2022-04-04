@@ -29,15 +29,24 @@ class FileListWidget(QListWidget):
         self.__extensions = extensions
 
     def addFilename(self, filename: str):
-        item = QListWidgetItem(filename)
-        absname = item.text()
-        basename = os.path.basename(absname)
-        self.__basename_absname_dict[basename] = absname
+        items = []
+        basename = os.path.basename(filename)
         if self.isFilenameOnly():
-            item.setText(basename)
+            items = self.findItems(basename, Qt.MatchFixedString)
+            if items:
+                self.setCurrentItem(items[0])
+            else:
+                item = QListWidgetItem(basename)
+                self.__basename_absname_dict[basename] = filename
+                self.addItem(item)
         else:
-            item.setText(absname)
-        self.addItem(item)
+            items = self.findItems(filename, Qt.MatchFixedString)
+            if items:
+                self.setCurrentItem(items[0])
+            else:
+                item = QListWidgetItem(filename)
+                self.__basename_absname_dict[basename] = filename
+                self.addItem(item)
 
     def addFilenames(self, filenames: list):
         exists_file_lst = []
