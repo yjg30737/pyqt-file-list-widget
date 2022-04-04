@@ -5,6 +5,7 @@ from PyQt5.QtCore import Qt
 import os
 
 from pyqt_files_already_exists_dialog import FilesAlreadyExistDialog
+from pyqt_show_long_text_as_tooltip_list_widget import ShowLongTextAsToolTipListWidget
 
 
 class FileListWidget(ShowLongTextAsToolTipListWidget):
