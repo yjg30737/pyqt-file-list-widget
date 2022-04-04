@@ -18,8 +18,8 @@ class FileListWidget(QListWidget):
         self.__exists_dialog_not_ask_again_flag = False
 
         self.__extensions = []
-        self._basename_absname_dict = defaultdict(str)
-        self._only_filename_flag = False
+        self.__basename_absname_dict = defaultdict(str)
+        self.__only_filename_flag = False
         
     def __initUi(self):
         self.setSelectionMode(QAbstractItemView.ExtendedSelection)
@@ -33,7 +33,7 @@ class FileListWidget(QListWidget):
         absname = item.text()
         basename = os.path.basename(absname)
         self._basename_absname_dict[basename] = absname
-        if self._only_filename_flag:
+        if self.isOnlyFileName():
             item.setText(basename)
         else:
             item.setText(absname)
@@ -43,7 +43,7 @@ class FileListWidget(QListWidget):
         exists_file_lst = []
         not_exists_file_lst = []
         for filename in filenames:
-            filename_to_find = os.path.basename(filename) if self._only_filename_flag else filename
+            filename_to_find = os.path.basename(filename) if self.isOnlyFileName() else filename
             items = self.findItems(filename_to_find, Qt.MatchFixedString)
             if items:
                 exists_file_lst.append(items[0])
