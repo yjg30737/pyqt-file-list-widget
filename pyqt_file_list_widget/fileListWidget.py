@@ -81,9 +81,14 @@ class FileListWidget(QListWidget):
     def removeSelectedRows(self):
         items = self.selectedItems()
         if items:
-            items = reversed(items)
+            removed_start_idx = self.row(items[0])
+            cur_idx = removed_start_idx-1
+            if removed_start_idx == 0:
+                cur_idx = 0
+            items = list(reversed(items))
             for item in items:
                 self.remove(item)
+            self.setCurrentRow(cur_idx)
 
     def clear(self):
         for i in range(self.count() - 1, -1, -1):
