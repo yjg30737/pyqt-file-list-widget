@@ -13,6 +13,8 @@ PyQt5 >= 5.8
 ## Method Overview
 * `addFilename(filename: str)`
 * `addFilenames(filenames: list)`
+* `setFilenameOnly(f: bool)` - Show file name only. ex) C:\...\abc.txt -> abc.txt
+* `isFilenameOnly() -> bool`
 * `setExtensions(extensions: list)` - Set the acceptable extensions of list.
 
 ## Example
