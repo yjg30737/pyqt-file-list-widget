@@ -118,10 +118,10 @@ class FileListWidget(QListWidget):
         self.addFilenames(filenames)
         super().dropEvent(e)
 
-    def setAsBaseName(self, flag: bool):
-        self.__show_filename_only_flag = flag
+    def setAsBaseName(self, f: bool):
+        self.__show_filename_only_flag = f
         items = [self.item(i) for i in range(self.count())]
-        if flag:
+        if f:
             for item in items:
                 absname = item.text()
                 basename = os.path.basename(absname)
