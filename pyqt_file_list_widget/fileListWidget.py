@@ -19,7 +19,7 @@ class FileListWidget(QListWidget):
 
         self.__extensions = []
         self.__basename_absname_dict = defaultdict(str)
-        self.__only_filename_flag = False
+        self.__show_filename_only_flag = False
 
     def __initUi(self):
         self.setSelectionMode(QAbstractItemView.ExtendedSelection)
@@ -33,7 +33,7 @@ class FileListWidget(QListWidget):
         absname = item.text()
         basename = os.path.basename(absname)
         self.__basename_absname_dict[basename] = absname
-        if self.isOnlyFileName():
+        if self.isFilenameOnly():
             item.setText(basename)
         else:
             item.setText(absname)
@@ -43,7 +43,7 @@ class FileListWidget(QListWidget):
         exists_file_lst = []
         not_exists_file_lst = []
         for filename in filenames:
-            filename_to_find = os.path.basename(filename) if self.isOnlyFileName() else filename
+            filename_to_find = os.path.basename(filename) if self.isFilenameOnly() else filename
             items = self.findItems(filename_to_find, Qt.MatchFixedString)
             if items:
                 exists_file_lst.append(items[0])
@@ -64,8 +64,8 @@ class FileListWidget(QListWidget):
             for filename in not_exists_file_lst:
                 self.addFilename(filename)
 
-    def setOnlyFileName(self, flag: bool):
-        self.__only_filename_flag = flag
+    def setFilenameOnly(self, flag: bool):
+        self.__show_filename_only_flag = flag
         self.setItemAsBaseName(flag)
 
     def remove(self, item: QListWidgetItem):
@@ -73,7 +73,7 @@ class FileListWidget(QListWidget):
         self.takeItem(self.row(item))
         self.__basename_absname_dict.pop(os.path.basename(filename))
 
-    def getSelectedFileNames(self):
+    def getSelectedFilenames(self):
         items = self.selectedItems()
         filenames = [item.text() for item in items]
         return filenames
@@ -90,10 +90,10 @@ class FileListWidget(QListWidget):
             self.remove(self.item(i))
         super().clear()
 
-    def isOnlyFileName(self):
-        return self.__only_filename_flag
+    def isFilenameOnly(self):
+        return self.__show_filename_only_flag
 
-    def getAbsFileName(self, basename):
+    def getAbsFilename(self, basename):
         return self.__basename_absname_dict[basename]
 
     def __getExtFilteredFiles(self, lst):
@@ -102,7 +102,7 @@ class FileListWidget(QListWidget):
         else:
             return lst
 
-    def __getFileNames(self, urls):
+    def __getFilenames(self, urls):
         return list(map(lambda x: x.path()[1:], urls))
 
     def dragEnterEvent(self, e):
@@ -114,12 +114,12 @@ class FileListWidget(QListWidget):
 
     def dropEvent(self, e):
         filenames = [file for file in self.__getExtFilteredFiles(
-            self.__getFileNames(e.mimeData().urls())) if file]
+            self.__getFilenames(e.mimeData().urls())) if file]
         self.addFilenames(filenames)
         super().dropEvent(e)
 
     def setItemAsBaseName(self, flag: bool):
-        self.__only_filename_flag = flag
+        self.__show_filename_only_flag = flag
         items = [self.item(i) for i in range(self.count())]
         if flag:
             for item in items:
