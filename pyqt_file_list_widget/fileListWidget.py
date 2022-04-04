@@ -66,7 +66,7 @@ class FileListWidget(QListWidget):
 
     def setFilenameOnly(self, f: bool):
         self.__show_filename_only_flag = f
-        self.setAsBaseName(f)
+        self.__execShowingBaseName(f)
 
     def remove(self, item: QListWidgetItem):
         filename = item.text()
@@ -118,7 +118,7 @@ class FileListWidget(QListWidget):
         self.addFilenames(filenames)
         super().dropEvent(e)
 
-    def setAsBaseName(self, f: bool):
+    def __execShowingBaseName(self, f: bool):
         self.__show_filename_only_flag = f
         items = [self.item(i) for i in range(self.count())]
         if f:
