@@ -7,7 +7,7 @@ setup(
     author_email='yjg30737@gmail.com',
     license='MIT',
     packages=find_packages(),
-    description='PyQt QListWidget for files (Being able to drop the files based on user-defined extensions)',
+    description='PyQt QListWidget for files (being able to drop the files based on user-defined extensions)',
     url='https://github.com/yjg30737/pyqt-file-list-widget.git',
     install_requires=[
         'PyQt5>=5.8',

@@ -8,25 +8,27 @@ from pyqt_files_already_exists_dialog import FilesAlreadyExistDialog
 
 
 class FileListWidget(QListWidget):
-    __ext_lst = []
-    _basename_absname_dict = defaultdict(str)
-    _only_filename_flag = False
-
-    drag_and_drop_filename = ''
 
     def __init__(self):
         super().__init__()
-        self.__existsDialogDontAskAgainChecked = False
-        self._initUi()
+        self.__initVal()
+        self.__initUi()
+        
+    def __initVal(self):
+        self.__exists_dialog_not_ask_again_flag = False
 
-    def _initUi(self):
+        self.__extensions = []
+        self._basename_absname_dict = defaultdict(str)
+        self._only_filename_flag = False
+        
+    def __initUi(self):
         self.setSelectionMode(QAbstractItemView.ExtendedSelection)
         self.setAcceptDrops(True)
 
-    def setExtList(self, ext_lst):
-        self.__ext_lst = ext_lst
+    def setExtensions(self, extensions: list):
+        self.__extensions = extensions
 
-    def setData(self, filename):
+    def addFilename(self, filename: str):
         item = QListWidgetItem(filename)
         absname = item.text()
         basename = os.path.basename(absname)
@@ -37,7 +39,7 @@ class FileListWidget(QListWidget):
             item.setText(absname)
         self.addItem(item)
 
-    def setDatas(self, filenames):
+    def addFilenames(self, filenames: list):
         exists_file_lst = []
         not_exists_file_lst = []
         for filename in filenames:
@@ -49,32 +51,22 @@ class FileListWidget(QListWidget):
                 not_exists_file_lst.append(filename)
         if exists_file_lst:
             dialog = FilesAlreadyExistDialog()
-            dialog.setDontAskAgainChecked(self.__existsDialogDontAskAgainChecked)
+            dialog.setDontAskAgainChecked(self.__exists_dialog_not_ask_again_flag)
             dialog.setExistFiles(exists_file_lst)
             reply = dialog.exec()
             if reply == QDialog.Accepted:
                 for filename in not_exists_file_lst:
-                    self.setData(filename)
+                    self.addFilename(filename)
                 return
             else:
                 return
         else:
             for filename in not_exists_file_lst:
-                self.setData(filename)
+                self.addFilename(filename)
 
     def setOnlyFileName(self, flag: bool):
         self._only_filename_flag = flag
         self.setItemAsBaseName(flag)
-
-    def setItem(self, item: QListWidgetItem):
-        absname = item.text()
-        basename = os.path.basename(absname)
-        self._basename_absname_dict[basename] = absname
-        if self._only_filename_flag:
-            item.setText(basename)
-        else:
-            item.setText(absname)
-        self.addItem(item)
 
     def remove(self, item: QListWidgetItem):
         filename = item.text()
@@ -105,8 +97,8 @@ class FileListWidget(QListWidget):
         return self._basename_absname_dict[basename]
 
     def __getExtFilteredFiles(self, lst):
-        if len(self.__ext_lst) > 0:
-            return list(map(lambda x: x if os.path.splitext(x)[-1] in self.__ext_lst else None, lst))
+        if len(self.__extensions) > 0:
+            return list(map(lambda x: x if os.path.splitext(x)[-1] in self.__extensions else None, lst))
         else:
             return lst
 
@@ -123,7 +115,7 @@ class FileListWidget(QListWidget):
     def dropEvent(self, e):
         filenames = [file for file in self.__getExtFilteredFiles(
                                       self.__getFileNames(e.mimeData().urls())) if file]
-        self.setDatas(filenames)
+        self.addFilenames(filenames)
         super().dropEvent(e)
 
     def setItemAsBaseName(self, flag: bool):
