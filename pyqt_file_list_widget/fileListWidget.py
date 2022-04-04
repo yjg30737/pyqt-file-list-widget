@@ -1,13 +1,13 @@
 from collections import defaultdict
 
-from PyQt5.QtWidgets import QListWidget, QListWidgetItem, QDialog, QAbstractItemView
+from PyQt5.QtWidgets import QListWidgetItem, QDialog, QAbstractItemView
 from PyQt5.QtCore import Qt
 import os
 
 from pyqt_files_already_exists_dialog import FilesAlreadyExistDialog
 
 
-class FileListWidget(QListWidget):
+class FileListWidget(ShowLongTextAsToolTipListWidget):
 
     def __init__(self):
         super().__init__()
