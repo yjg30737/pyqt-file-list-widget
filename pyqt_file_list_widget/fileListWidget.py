@@ -56,10 +56,10 @@ class FileListWidget(ShowLongTextAsToolTipListWidget):
                 self.__basename_absname_dict[basename] = filename
                 self.addItem(item)
 
-    def __execExistsDialog(self, exists_file_lst):
+    def __execDuplicatedFilenamesDialog(self, duplicated_filenames: list):
         dialog = FilesAlreadyExistDialog()
         dialog.setDontAskAgainChecked(self.__exists_dialog_not_ask_again_flag)
-        dialog.setExistFiles(exists_file_lst)
+        dialog.setExistFiles(duplicated_filenames)
         reply = dialog.exec()
 
     def addFilenames(self, filenames: list):
@@ -69,7 +69,7 @@ class FileListWidget(ShowLongTextAsToolTipListWidget):
         else:
             duplicated_filenames = self.__getDuplicatedItems(filenames)
             if duplicated_filenames:
-                self.__execExistsDialog(duplicated_filenames)
+                self.__execDuplicatedFilenamesDialog(duplicated_filenames)
             else:
                 for filename in filenames:
                     self.addFilename(filename)
