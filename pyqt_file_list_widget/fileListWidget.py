@@ -17,6 +17,7 @@ class FileListWidget(ShowLongTextAsToolTipListWidget):
 
     def __initVal(self):
         self.__exists_dialog_not_ask_again_flag = False
+        self.__duplicated_flag = False
 
         self.__extensions = []
         self.__basename_absname_dict = defaultdict(str)
@@ -25,6 +26,12 @@ class FileListWidget(ShowLongTextAsToolTipListWidget):
     def __initUi(self):
         self.setSelectionMode(QAbstractItemView.ExtendedSelection)
         self.setAcceptDrops(True)
+
+    def isDuplicatedEnabled(self) -> bool:
+        return self.__duplicated_flag
+
+    def setDuplicatedEnabled(self, f: bool):
+        self.__duplicated_flag = f
 
     def setExtensions(self, extensions: list):
         self.__extensions = extensions
@@ -37,38 +44,47 @@ class FileListWidget(ShowLongTextAsToolTipListWidget):
             filename_to_find = basename
         else:
             filename_to_find = filename
-        items = self.findItems(filename_to_find, Qt.MatchFixedString)
-        if items:
-            self.setCurrentItem(items[0])
-        else:
+        if self.isDuplicatedEnabled():
+            # todo refactoring
             item = QListWidgetItem(filename_to_find)
             self.__basename_absname_dict[basename] = filename
             self.addItem(item)
-
-    def addFilenames(self, filenames: list):
-        exists_file_lst = []
-        not_exists_file_lst = []
-        for filename in filenames:
-            filename_to_find = os.path.basename(filename) if self.isFilenameOnly() else filename
+        else:
             items = self.findItems(filename_to_find, Qt.MatchFixedString)
             if items:
-                exists_file_lst.append(items[0])
+                # reply = self.__execExistsDialog(items)
+                self.setCurrentItem(items[0])
             else:
-                not_exists_file_lst.append(filename)
-        if exists_file_lst:
-            dialog = FilesAlreadyExistDialog()
-            dialog.setDontAskAgainChecked(self.__exists_dialog_not_ask_again_flag)
-            dialog.setExistFiles(exists_file_lst)
-            reply = dialog.exec()
-            if reply == QDialog.Accepted:
+                # todo refactoring
+                item = QListWidgetItem(filename_to_find)
+                self.__basename_absname_dict[basename] = filename
+                self.addItem(item)
+
+    def __execExistsDialog(self, exists_file_lst):
+        dialog = FilesAlreadyExistDialog()
+        dialog.setDontAskAgainChecked(self.__exists_dialog_not_ask_again_flag)
+        dialog.setExistFiles(exists_file_lst)
+        reply = dialog.exec()
+
+    def addFilenames(self, filenames: list):
+        if self.isDuplicatedEnabled():
+            for filename in filenames:
+                self.addFilename(filename)
+        else:
+            exists_file_lst = []
+            not_exists_file_lst = []
+            for filename in filenames:
+                filename_to_find = os.path.basename(filename) if self.isFilenameOnly() else filename
+                items = self.findItems(filename_to_find, Qt.MatchFixedString)
+                if items:
+                    exists_file_lst.append(items[0])
+                else:
+                    not_exists_file_lst.append(filename)
+            if exists_file_lst:
+                self.__execExistsDialog(exists_file_lst)
+            else:
                 for filename in not_exists_file_lst:
                     self.addFilename(filename)
-                return
-            else:
-                return
-        else:
-            for filename in not_exists_file_lst:
-                self.addFilename(filename)
 
     def setFilenameOnly(self, f: bool):
         self.__show_filename_only_flag = f
@@ -88,7 +104,7 @@ class FileListWidget(ShowLongTextAsToolTipListWidget):
         items = self.selectedItems()
         if items:
             removed_start_idx = self.row(items[0])
-            cur_idx = removed_start_idx-1
+            cur_idx = removed_start_idx - 1
             if removed_start_idx == 0:
                 cur_idx = 0
             items = list(reversed(items))
