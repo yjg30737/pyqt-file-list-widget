@@ -37,24 +37,12 @@ class FileListWidget(ShowLongTextAsToolTipListWidget):
         self.__extensions = extensions
 
     def addFilename(self, filename: str):
-        items = []
         basename = os.path.basename(filename)
-        filename_to_find = self.__getFilenameToFind(filename)
-        if self.isDuplicateEnabled():
-            # todo refactoring
-            item = QListWidgetItem(filename_to_find)
-            self.__basename_absname_dict[basename] = filename
-            self.addItem(item)
+        self.__basename_absname_dict[basename] = filename
+        if self.isFilenameOnly():
+            self.addItem(basename)
         else:
-            items = self.findItems(filename_to_find, Qt.MatchFixedString)
-            if items:
-                # reply = self.__execExistsDialog(items)
-                self.setCurrentItem(items[0])
-            else:
-                # todo refactoring
-                item = QListWidgetItem(filename_to_find)
-                self.__basename_absname_dict[basename] = filename
-                self.addItem(item)
+            self.addItem(filename)
 
     def __execDuplicateFilenamesDialog(self, duplicate_filenames: list):
         dialog = FilesAlreadyExistDialog()
@@ -67,9 +55,11 @@ class FileListWidget(ShowLongTextAsToolTipListWidget):
             for filename in filenames:
                 self.addFilename(filename)
         else:
-            duplicate_filenames = self.__getDuplicateItems(filenames)
+            duplicate_filenames, not_duplicate_filenames = self.__getDuplicateItems(filenames)
             if duplicate_filenames:
                 self.__execDuplicateFilenamesDialog(duplicate_filenames)
+                for not_duplicate_filename in not_duplicate_filenames:
+                    self.addFilename(not_duplicate_filename)
             else:
                 for filename in filenames:
                     self.addFilename(filename)
@@ -108,18 +98,28 @@ class FileListWidget(ShowLongTextAsToolTipListWidget):
     def isFilenameOnly(self) -> bool:
         return self.__show_filename_only_flag
 
-    def __getDuplicateItems(self, filenames: list) -> list:
+    def __getDuplicateItems(self, filenames: list):
         exists_file_lst = []
-        for filename in filenames:
-            filename_to_find = self.__getFilenameToFind(filename)
-            items = self.findItems(filename_to_find, Qt.MatchFixedString)
+        not_exists_file_lst = []
+        filenames_to_find = filenames
+        for filename_to_find in filenames_to_find:
+            if self.isFilenameOnly():
+                items = self.findItems(os.path.basename(filename_to_find), Qt.MatchFixedString)
+            else:
+                items = self.findItems(filename_to_find, Qt.MatchFixedString)
             if items:
-                exists_file_lst.append(items[0])
-        return exists_file_lst
+                exists_file_lst.append(filename_to_find)
+            else:
+                not_exists_file_lst.append(filename_to_find)
+        return exists_file_lst, not_exists_file_lst
 
-    def __getFilenameToFind(self, filename: str) -> str:
-        filename_to_find = os.path.basename(filename) if self.isFilenameOnly() else filename
-        return  filename_to_find
+    def __getFilenamesToFind(self, filenames: list) -> list:
+        filenames_to_find = []
+        if self.isFilenameOnly():
+            filenames_to_find = [os.path.basename(filename) for filename in filenames]
+        else:
+            filenames_to_find = filenames
+        return filenames_to_find
 
     def getAbsFilename(self, basename: str):
         return self.__basename_absname_dict[basename]
