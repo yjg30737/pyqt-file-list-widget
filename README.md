@@ -12,8 +12,8 @@ PyQt5 >= 5.8
 * <a href="https://github.com/yjg30737/pyqt-files-already-exists-dialog.git>pyqt-files-already-exists-dialog">pyqt-files-already-exists-dialog</a>
 
 ## Method Overview
-* `addFilename(filename: str)`
 * `addFilenames(filenames: list)`
+* `setFilenames(filenames: list)` - clear the files before adding new files.
 * `setFilenameOnly(f: bool)` - Show file name only. ex) C:\...\abc.txt -> abc.txt
 * `isFilenameOnly() -> bool`
 * `getSelectedFilenames() -> list`
