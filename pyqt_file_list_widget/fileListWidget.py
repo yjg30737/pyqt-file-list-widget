@@ -121,6 +121,12 @@ class FileListWidget(ShowLongTextAsToolTipListWidget):
     def getAbsFilename(self, basename: str):
         return self.__basename_absname_dict[basename]
 
+    def getFilenameFromRow(self, r: int) -> str:
+        if self.isFilenameOnly():
+            return self.getAbsFilename(self.item(r).text())
+        else:
+            return self.item(r).text()
+
     def __getExtFilteredFiles(self, lst):
         if len(self.__extensions) > 0:
             return list(map(lambda x: x if os.path.splitext(x)[-1] in self.__extensions else None, lst))
