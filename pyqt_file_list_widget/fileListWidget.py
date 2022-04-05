@@ -118,14 +118,6 @@ class FileListWidget(ShowLongTextAsToolTipListWidget):
                 not_exists_file_lst.append(filename_to_find)
         return exists_file_lst, not_exists_file_lst
 
-    def __getFilenamesToFind(self, filenames: list) -> list:
-        filenames_to_find = []
-        if self.isFilenameOnly():
-            filenames_to_find = [os.path.basename(filename) for filename in filenames]
-        else:
-            filenames_to_find = filenames
-        return filenames_to_find
-
     def getAbsFilename(self, basename: str):
         return self.__basename_absname_dict[basename]
 
