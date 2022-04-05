@@ -32,22 +32,18 @@ class FileListWidget(ShowLongTextAsToolTipListWidget):
     def addFilename(self, filename: str):
         items = []
         basename = os.path.basename(filename)
+        filename_to_find = ''
         if self.isFilenameOnly():
-            items = self.findItems(basename, Qt.MatchFixedString)
-            if items:
-                self.setCurrentItem(items[0])
-            else:
-                item = QListWidgetItem(basename)
-                self.__basename_absname_dict[basename] = filename
-                self.addItem(item)
+            filename_to_find = basename
         else:
-            items = self.findItems(filename, Qt.MatchFixedString)
-            if items:
-                self.setCurrentItem(items[0])
-            else:
-                item = QListWidgetItem(filename)
-                self.__basename_absname_dict[basename] = filename
-                self.addItem(item)
+            filename_to_find = filename
+        items = self.findItems(filename_to_find, Qt.MatchFixedString)
+        if items:
+            self.setCurrentItem(items[0])
+        else:
+            item = QListWidgetItem(filename_to_find)
+            self.__basename_absname_dict[basename] = filename
+            self.addItem(item)
 
     def addFilenames(self, filenames: list):
         exists_file_lst = []
