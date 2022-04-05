@@ -21,6 +21,8 @@ PyQt5 >= 5.8
 * `clear()` - Overriding method.
 * `getAbsFilename(basename: str) -> str` - Get the absolute file path with base file name.
 * `setExtensions(extensions: list)` - Set the acceptable extensions of list.
+* `setDuplicateEnabled(f: bool)` - Allow list to have duplicate item.
+* `isDuplicateEnabled() -> bool`
 
 ## Example
 See <a href="https://github.com/yjg30737/pyqt-top-left-right-file-list-widget.git">pyqt-top-left-right-file-list-widget</a>
