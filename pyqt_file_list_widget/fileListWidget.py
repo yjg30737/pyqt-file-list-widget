@@ -98,6 +98,7 @@ class FileListWidget(ShowLongTextAsToolTipListWidget):
     def isFilenameOnly(self) -> bool:
         return self.__show_filename_only_flag
 
+    # refactoring needed
     def __getDuplicateItems(self, filenames: list):
         exists_file_lst = []
         not_exists_file_lst = []
