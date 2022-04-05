@@ -50,11 +50,11 @@ class FileListWidget(ShowLongTextAsToolTipListWidget):
         dialog.setExistFiles(duplicate_filenames)
         reply = dialog.exec()
 
-    def setFilenames(self, filenames: list):
+    def setFilenames(self, filenames: list, idx=0):
         self.clear()
-        self.addFilenames(filenames)
+        self.addFilenames(filenames, idx=idx)
 
-    def addFilenames(self, filenames: list):
+    def addFilenames(self, filenames: list, idx=0):
         if self.isDuplicateEnabled():
             for filename in filenames:
                 self.addFilename(filename)
