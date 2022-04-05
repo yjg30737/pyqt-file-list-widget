@@ -17,7 +17,7 @@ class FileListWidget(ShowLongTextAsToolTipListWidget):
 
     def __initVal(self):
         self.__exists_dialog_not_ask_again_flag = False
-        self.__duplicated_flag = False
+        self.__duplicated_flag = True
 
         self.__extensions = []
         self.__basename_absname_dict = defaultdict(str)
@@ -67,19 +67,11 @@ class FileListWidget(ShowLongTextAsToolTipListWidget):
             for filename in filenames:
                 self.addFilename(filename)
         else:
-            exists_file_lst = []
-            not_exists_file_lst = []
-            for filename in filenames:
-                filename_to_find = self.__getFilenameToFind(filename)
-                items = self.findItems(filename_to_find, Qt.MatchFixedString)
-                if items:
-                    exists_file_lst.append(items[0])
-                else:
-                    not_exists_file_lst.append(filename)
-            if exists_file_lst:
-                self.__execExistsDialog(exists_file_lst)
+            duplicated_filenames = self.__getDuplicatedItems(filenames)
+            if duplicated_filenames:
+                self.__execExistsDialog(duplicated_filenames)
             else:
-                for filename in not_exists_file_lst:
+                for filename in filenames:
                     self.addFilename(filename)
 
     def setFilenameOnly(self, f: bool):
@@ -115,6 +107,15 @@ class FileListWidget(ShowLongTextAsToolTipListWidget):
 
     def isFilenameOnly(self) -> bool:
         return self.__show_filename_only_flag
+
+    def __getDuplicatedItems(self, filenames: list) -> list:
+        exists_file_lst = []
+        for filename in filenames:
+            filename_to_find = self.__getFilenameToFind(filename)
+            items = self.findItems(filename_to_find, Qt.MatchFixedString)
+            if items:
+                exists_file_lst.append(items[0])
+        return exists_file_lst
 
     def __getFilenameToFind(self, filename: str) -> str:
         filename_to_find = os.path.basename(filename) if self.isFilenameOnly() else filename
