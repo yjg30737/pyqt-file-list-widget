@@ -56,10 +56,10 @@ class FileListWidget(ShowLongTextAsToolTipListWidget):
                 self.__basename_absname_dict[basename] = filename
                 self.addItem(item)
 
-    def __execDuplicatedFilenamesDialog(self, duplicated_filenames: list):
+    def __execDuplicateFilenamesDialog(self, duplicate_filenames: list):
         dialog = FilesAlreadyExistDialog()
         dialog.setDontAskAgainChecked(self.__exists_dialog_not_ask_again_flag)
-        dialog.setExistFiles(duplicated_filenames)
+        dialog.setExistFiles(duplicate_filenames)
         reply = dialog.exec()
 
     def addFilenames(self, filenames: list):
@@ -67,9 +67,9 @@ class FileListWidget(ShowLongTextAsToolTipListWidget):
             for filename in filenames:
                 self.addFilename(filename)
         else:
-            duplicated_filenames = self.__getDuplicatedItems(filenames)
-            if duplicated_filenames:
-                self.__execDuplicatedFilenamesDialog(duplicated_filenames)
+            duplicate_filenames = self.__getDuplicateItems(filenames)
+            if duplicate_filenames:
+                self.__execDuplicateFilenamesDialog(duplicate_filenames)
             else:
                 for filename in filenames:
                     self.addFilename(filename)
@@ -108,7 +108,7 @@ class FileListWidget(ShowLongTextAsToolTipListWidget):
     def isFilenameOnly(self) -> bool:
         return self.__show_filename_only_flag
 
-    def __getDuplicatedItems(self, filenames: list) -> list:
+    def __getDuplicateItems(self, filenames: list) -> list:
         exists_file_lst = []
         for filename in filenames:
             filename_to_find = self.__getFilenameToFind(filename)
