@@ -130,7 +130,7 @@ class FileListWidget(ShowLongTextAsToolTipListWidget):
         else:
             return lst
 
-    def __getFilenames(self, urls):
+    def __getUrlsFilenames(self, urls):
         return list(map(lambda x: x.path()[1:], urls))
 
     def dragEnterEvent(self, e):
@@ -142,7 +142,7 @@ class FileListWidget(ShowLongTextAsToolTipListWidget):
 
     def dropEvent(self, e):
         filenames = [file for file in self.__getExtFilteredFiles(
-            self.__getFilenames(e.mimeData().urls())) if file]
+            self.__getUrlsFilenames(e.mimeData().urls())) if file]
         self.addFilenames(filenames)
         super().dropEvent(e)
 
