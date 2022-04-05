@@ -17,7 +17,7 @@ class FileListWidget(ShowLongTextAsToolTipListWidget):
 
     def __initVal(self):
         self.__exists_dialog_not_ask_again_flag = False
-        self.__duplicated_flag = True
+        self.__duplicate_flag = True
 
         self.__extensions = []
         self.__basename_absname_dict = defaultdict(str)
@@ -27,11 +27,11 @@ class FileListWidget(ShowLongTextAsToolTipListWidget):
         self.setSelectionMode(QAbstractItemView.ExtendedSelection)
         self.setAcceptDrops(True)
 
-    def isDuplicatedEnabled(self) -> bool:
-        return self.__duplicated_flag
+    def isDuplicateEnabled(self) -> bool:
+        return self.__duplicate_flag
 
-    def setDuplicatedEnabled(self, f: bool):
-        self.__duplicated_flag = f
+    def setDuplicateEnabled(self, f: bool):
+        self.__duplicate_flag = f
 
     def setExtensions(self, extensions: list):
         self.__extensions = extensions
@@ -40,7 +40,7 @@ class FileListWidget(ShowLongTextAsToolTipListWidget):
         items = []
         basename = os.path.basename(filename)
         filename_to_find = self.__getFilenameToFind(filename)
-        if self.isDuplicatedEnabled():
+        if self.isDuplicateEnabled():
             # todo refactoring
             item = QListWidgetItem(filename_to_find)
             self.__basename_absname_dict[basename] = filename
@@ -63,7 +63,7 @@ class FileListWidget(ShowLongTextAsToolTipListWidget):
         reply = dialog.exec()
 
     def addFilenames(self, filenames: list):
-        if self.isDuplicatedEnabled():
+        if self.isDuplicateEnabled():
             for filename in filenames:
                 self.addFilename(filename)
         else:
