@@ -1,6 +1,6 @@
 from collections import defaultdict
 
-from PyQt5.QtWidgets import QListWidgetItem, QDialog, QAbstractItemView
+from PyQt5.QtWidgets import QListWidgetItem, QAbstractItemView
 from PyQt5.QtCore import Qt
 import os
 
