@@ -39,11 +39,7 @@ class FileListWidget(ShowLongTextAsToolTipListWidget):
     def addFilename(self, filename: str):
         items = []
         basename = os.path.basename(filename)
-        filename_to_find = ''
-        if self.isFilenameOnly():
-            filename_to_find = basename
-        else:
-            filename_to_find = filename
+        filename_to_find = self.__getFilenameToFind(filename)
         if self.isDuplicatedEnabled():
             # todo refactoring
             item = QListWidgetItem(filename_to_find)
@@ -74,7 +70,7 @@ class FileListWidget(ShowLongTextAsToolTipListWidget):
             exists_file_lst = []
             not_exists_file_lst = []
             for filename in filenames:
-                filename_to_find = os.path.basename(filename) if self.isFilenameOnly() else filename
+                filename_to_find = self.__getFilenameToFind(filename)
                 items = self.findItems(filename_to_find, Qt.MatchFixedString)
                 if items:
                     exists_file_lst.append(items[0])
@@ -119,6 +115,10 @@ class FileListWidget(ShowLongTextAsToolTipListWidget):
 
     def isFilenameOnly(self) -> bool:
         return self.__show_filename_only_flag
+
+    def __getFilenameToFind(self, filename: str) -> str:
+        filename_to_find = os.path.basename(filename) if self.isFilenameOnly() else filename
+        return  filename_to_find
 
     def getAbsFilename(self, basename: str):
         return self.__basename_absname_dict[basename]
