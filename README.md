@@ -13,7 +13,7 @@ PyQt5 >= 5.8
 
 ## Method Overview
 * `addFilenames(filenames: list)`
-* `setFilenames(filenames: list)` - clear the files before adding new files.
+* `setFilenames(filenames: list)` - Clear the list before adding new files on the list.
 * `setFilenameOnly(f: bool)` - Show file name only. ex) C:\...\abc.txt -> abc.txt
 * `isFilenameOnly() -> bool`
 * `getSelectedFilenames() -> list`
