@@ -12,8 +12,8 @@ PyQt5 >= 5.8
 * <a href="https://github.com/yjg30737/pyqt-files-already-exists-dialog.git>pyqt-files-already-exists-dialog">pyqt-files-already-exists-dialog</a>
 
 ## Method Overview
-* `addFilenames(filenames: list, idx=0)` - `idx` is current item index to set. Default is 0.  
-* `setFilenames(filenames: list, idx=0)` - Clear the list before adding new files on the list.
+* `addFilenames(filenames: list, cur_filename: str = '')` - `cur_filename` is current file name to set. Default is first one.  
+* `setFilenames(filenames: list, cur_filename: str = '')` - Clear the list before adding new files on the list.
 * `setFilenameOnly(f: bool)` - Show file name only. ex) C:\...\abc.txt -> abc.txt
 * `isFilenameOnly() -> bool`
 * `getSelectedFilenames() -> list`
