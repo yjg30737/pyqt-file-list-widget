@@ -1,7 +1,7 @@
 from collections import defaultdict
 
 from PyQt5.QtWidgets import QListWidgetItem, QAbstractItemView
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, pyqtSignal
 import os
 
 from pyqt_files_already_exists_dialog import FilesAlreadyExistDialog
@@ -9,6 +9,7 @@ from pyqt_show_long_text_as_tooltip_list_widget import ShowLongTextAsToolTipList
 
 
 class FileListWidget(ShowLongTextAsToolTipListWidget):
+    added = pyqtSignal(list)
 
     def __init__(self):
         super().__init__()
@@ -45,6 +46,7 @@ class FileListWidget(ShowLongTextAsToolTipListWidget):
             self.addItem(filename)
 
     def __addFilenames(self, filenames: list):
+        self.added.emit(filenames)
         for filename in filenames:
             self.__addFilename(filename)
 
