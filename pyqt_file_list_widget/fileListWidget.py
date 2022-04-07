@@ -54,7 +54,7 @@ class FileListWidget(ShowLongTextAsToolTipListWidget):
     def __setCurrentFilename(self, filenames: list, cur_filename: str = ''):
         cur_filename = filenames[0] if cur_filename == '' else cur_filename
         items = self.findItems(cur_filename, Qt.MatchFixedString)
-        r = items[0].row()
+        r = self.row(items[0])
         self.setCurrentRow(r)
 
     def __execDuplicateFilenamesDialog(self, duplicate_filenames: list):
