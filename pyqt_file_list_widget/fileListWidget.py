@@ -55,6 +55,7 @@ class FileListWidget(ShowLongTextAsToolTipListWidget):
         self.addFilenames(filenames, idx=idx)
 
     def addFilenames(self, filenames: list, idx=0):
+        filenames = self.__getExtFilteredFiles(filenames)
         if self.isDuplicateEnabled():
             for filename in filenames:
                 self.__addFilename(filename)
@@ -129,7 +130,7 @@ class FileListWidget(ShowLongTextAsToolTipListWidget):
 
     def __getExtFilteredFiles(self, lst):
         if len(self.__extensions) > 0:
-            return list(map(lambda x: x if os.path.splitext(x)[-1] in self.__extensions else None, lst))
+            return list(filter(None, map(lambda x: x if os.path.splitext(x)[-1] in self.__extensions else None, lst)))
         else:
             return lst
 
