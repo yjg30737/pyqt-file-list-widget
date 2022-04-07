@@ -45,10 +45,17 @@ class FileListWidget(ShowLongTextAsToolTipListWidget):
         else:
             self.addItem(filename)
 
-    def __addFilenames(self, filenames: list):
+    def __addFilenames(self, filenames: list, cur_filename: str = ''):
         self.added.emit(filenames)
         for filename in filenames:
             self.__addFilename(filename)
+        self.__setCurrentFilename(filenames, cur_filename)
+
+    def __setCurrentFilename(self, filenames: list, cur_filename: str = ''):
+        cur_filename = filenames[0] if cur_filename == '' else cur_filename
+        items = self.findItems(cur_filename, Qt.MatchFixedString)
+        r = items[0].row()
+        self.setCurrentRow(r)
 
     def __execDuplicateFilenamesDialog(self, duplicate_filenames: list):
         dialog = FilesAlreadyExistDialog()
@@ -63,7 +70,7 @@ class FileListWidget(ShowLongTextAsToolTipListWidget):
     def addFilenames(self, filenames: list, cur_filename: str = ''):
         filenames = self.__getExtFilteredFiles(filenames)
         if self.isDuplicateEnabled():
-            self.__addFilenames(filenames)
+            self.__addFilenames(filenames, cur_filename)
         else:
             duplicate_filenames, not_duplicate_filenames = self.__getDuplicateItems(filenames)
             if duplicate_filenames:
