@@ -44,6 +44,10 @@ class FileListWidget(ShowLongTextAsToolTipListWidget):
         else:
             self.addItem(filename)
 
+    def __addFilenames(self, filenames: list):
+        for filename in filenames:
+            self.__addFilename(filename)
+
     def __execDuplicateFilenamesDialog(self, duplicate_filenames: list):
         dialog = FilesAlreadyExistDialog()
         dialog.setDontAskAgainChecked(self.__exists_dialog_not_ask_again_flag)
@@ -57,17 +61,14 @@ class FileListWidget(ShowLongTextAsToolTipListWidget):
     def addFilenames(self, filenames: list, idx=0):
         filenames = self.__getExtFilteredFiles(filenames)
         if self.isDuplicateEnabled():
-            for filename in filenames:
-                self.__addFilename(filename)
+            self.__addFilenames(filenames)
         else:
             duplicate_filenames, not_duplicate_filenames = self.__getDuplicateItems(filenames)
             if duplicate_filenames:
                 self.__execDuplicateFilenamesDialog(duplicate_filenames)
-                for not_duplicate_filename in not_duplicate_filenames:
-                    self.__addFilename(not_duplicate_filename)
+                self.__addFilenames(not_duplicate_filenames)
             else:
-                for filename in filenames:
-                    self.__addFilename(filename)
+                self.__addFilenames(filenames)
 
     def setFilenameOnly(self, f: bool):
         self.__show_filename_only_flag = f
