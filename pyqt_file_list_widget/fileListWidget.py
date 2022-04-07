@@ -1,8 +1,8 @@
+import os, posixpath
 from collections import defaultdict
 
 from PyQt5.QtWidgets import QListWidgetItem, QAbstractItemView
 from PyQt5.QtCore import Qt, pyqtSignal
-import os
 
 from pyqt_files_already_exists_dialog import FilesAlreadyExistDialog
 from pyqt_show_long_text_as_tooltip_list_widget import ShowLongTextAsToolTipListWidget
@@ -63,6 +63,19 @@ class FileListWidget(ShowLongTextAsToolTipListWidget):
         dialog.setDontAskAgainChecked(self.__exists_dialog_not_ask_again_flag)
         dialog.setExistFiles(duplicate_filenames)
         reply = dialog.exec()
+
+    def __getFilenamesInDirectory(self, dirname: str) -> list:
+        filenames = [os.path.join(dirname, filename).replace(os.path.sep, posixpath.sep) for filename in
+                     os.listdir(dirname)]
+        return filenames
+
+    def setDirectory(self, dirname: str, cur_filename: str = ''):
+        filenames = self.__getFilenamesInDirectory(dirname)
+        self.setFilenames(filenames, cur_filename)
+
+    def addDirectory(self, dirname: str, cur_filename: str = ''):
+        filenames = self.__getFilenamesInDirectory(dirname)
+        self.addFilenames(filenames, cur_filename)
 
     def setFilenames(self, filenames: list, cur_filename: str = ''):
         self.clear()
