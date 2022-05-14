@@ -22,6 +22,6 @@ setup(
     install_requires=[
         'PyQt5>=5.8',
         'pyqt-tooltip-list-widget>=0.0.1',
-        'pyqt-files-already-exists-dialog @ git+https://git@github.com/yjg30737/pyqt-files-already-exists-dialog.git@main'
+        'pyqt-files-already-exists-dialog>=0.0.1'
     ]
 )
