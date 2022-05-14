@@ -5,10 +5,10 @@ from PyQt5.QtWidgets import QListWidgetItem, QAbstractItemView
 from PyQt5.QtCore import Qt, pyqtSignal
 
 from pyqt_files_already_exists_dialog import FilesAlreadyExistDialog
-from pyqt_show_long_text_as_tooltip_list_widget import ShowLongTextAsToolTipListWidget
+from pyqt_tooltip_list_widget import ToolTipListWidget
 
 
-class FileListWidget(ShowLongTextAsToolTipListWidget):
+class FileListWidget(ToolTipListWidget):
     added = pyqtSignal(list)
 
     def __init__(self):
