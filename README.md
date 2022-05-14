@@ -9,7 +9,7 @@ PyQt5 >= 5.8
 
 ## Included Packages
 * <a href="https://github.com/yjg30737/pyqt-tooltip-list-widget.git">pyqt-tooltip-list-widget</a> - parent class
-* <a href="https://github.com/yjg30737/pyqt-files-already-exists-dialog.git>pyqt-files-already-exists-dialog">pyqt-files-already-exists-dialog</a>
+* <a href="https://github.com/yjg30737/pyqt-files-already-exists-dialog.git">pyqt-files-already-exists-dialog</a>
 
 ## Method Overview
 * `addFilenames(filenames: list, cur_filename: str = '')` - Add files on the list. `cur_filename` is current file name to set. Default is first one.  
